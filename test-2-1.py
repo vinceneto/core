@@ -8,5 +8,5 @@ class Test(Base):
 	def update(self):
 		pass
 
-# instantiate this class and run the program
+# instanciar esta classe e executar o programa
 Test().run()

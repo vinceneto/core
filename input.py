@@ -2,13 +2,13 @@ import pygame
 
 class Input(object):
 	def __init__(self):
-	# has the user quit the application?
+		# o usuário encerrou a aplicação?
 		self.quit = False
 	
 	def update(self):
-	# iterate over all user input events (such as keyboard or
-	# mouse)that occurred since the last time events were checked
+		# iterar sobre todos os eventos de entrada do usuário (como
+		# teclado ou mouse) que ocorreram desde a última verificação de eventos
 		for event in pygame.event.get():
-			# quit event occurs by clicking button to close window
+			# evento de encerramento ocorre ao clicar no botão para fechar a janela
 			if event.type == pygame.QUIT:
 				self.quit = True

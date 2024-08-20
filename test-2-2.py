@@ -2,15 +2,15 @@ from base import Base
 from openGLUtils import OpenGLUtils
 from OpenGL.GL import *
 
-# render a single point
+# renderizar um único ponto
 class Test(Base):
 
     def initialize(self):
-        print("Initializing program...")
+        print("Inicializando o programa...")
         
-        ### initialize program ###
+        ### inicializar o programa ###
 
-        # vertex shader code
+        # código do vertex shader
         vsCode = """
         void main()
         {
@@ -18,7 +18,7 @@ class Test(Base):
         }
         """
 
-        # fragment shader code
+        # código do fragment shader
         fsCode = """
         out vec4 fragColor;
         void main()
@@ -26,24 +26,24 @@ class Test(Base):
             fragColor = vec4(1.0, 1.0, 0.0, 1.0);
         }
         """
-        # send code to GPU and compile; store program reference
+        # enviar o código para a GPU e compilar; armazenar a referência do programa
         self.programRef = OpenGLUtils.initializeProgram(vsCode, fsCode)
         
-        ### set up vertex array object ###
+        ### configurar o objeto de array de vértices ###
         vaoRef = glGenVertexArrays(1)
         glBindVertexArray(vaoRef)
         
-        ### render settings (optional) ###
+        ### configurações de renderização (opcional) ###
         
-        # set point width and height
-        glPointSize( 10 )
+        # definir a largura e altura do ponto
+        glPointSize(10)
     
     def update(self):
-        # select program to use when rendering
-        glUseProgram( self.programRef )
+        # selecionar o programa a ser usado na renderização
+        glUseProgram(self.programRef)
 
-        # renders geometric objects using selected program
-        glDrawArrays( GL_POINTS, 0, 1 )
+        # renderiza objetos geométricos usando o programa selecionado
+        glDrawArrays(GL_POINTS, 0, 1)
         
-# instantiate this class and run the program
+# instanciar esta classe e executar o programa
 Test().run()

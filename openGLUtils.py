@@ -1,40 +1,40 @@
 from OpenGL.GL import *
 
-# static methods to load and compile OpenGL shaders and link to create programs
+# métodos estáticos para carregar e compilar shaders OpenGL e vincular para criar programas
 class OpenGLUtils(object):
 
     @staticmethod
     def initializeShader(shaderCode, shaderType):
 
-        # specify required OpenGL/GLSL version
+        # especifica a versão necessária do OpenGL/GLSL
         shaderCode = '#version 330\n' + shaderCode
 
-        # create empty shader object and return reference value
+        # cria um objeto de shader vazio e retorna o valor de referência
         shaderRef = glCreateShader(shaderType)
 
-        # stores the source code in the shader
+        # armazena o código-fonte no shader
         glShaderSource(shaderRef, shaderCode)
 
-        # compiles source code previously stored in the shader object
+        # compila o código-fonte previamente armazenado no objeto shader
         glCompileShader(shaderRef)
 
-        # queries whether shader compile was successful
+        # verifica se a compilação do shader foi bem-sucedida
         compileSuccess = glGetShaderiv(shaderRef, GL_COMPILE_STATUS)
 
         if not compileSuccess:
-            # retrieve error message
+            # recupera a mensagem de erro
             errorMessage = glGetShaderInfoLog(shaderRef)
 
-            # free memory used to store shader program
+            # libera a memória usada para armazenar o programa do shader
             glDeleteShader(shaderRef)
 
-            # convert byte string to character string
+            # converte string de bytes em string de caracteres
             errorMessage = '\n' + errorMessage.decode('utf-8')
 
-            # raise exception: halt program and print error message
-            raise Exception ( errorMessage )
+            # lança uma exceção: interrompe o programa e imprime a mensagem de erro
+            raise Exception(errorMessage)
 
-        # compilation was successful; return shader reference value    
+        # a compilação foi bem-sucedida; retorna o valor de referência do shader    
         return shaderRef
 
     @staticmethod
@@ -45,40 +45,38 @@ class OpenGLUtils(object):
         fragmentShaderRef = OpenGLUtils.initializeShader(
                     fragmentShaderCode, GL_FRAGMENT_SHADER)
         
-        # create empty program object and store reference to it
+        # cria um objeto de programa vazio e armazena a referência a ele
         programRef = glCreateProgram()
 
-        # attach previously compiled shader programs
+        # anexa os programas de shader previamente compilados
         glAttachShader(programRef, vertexShaderRef)
         glAttachShader(programRef, fragmentShaderRef)
         
-        # link vertex shader to fragment shader
+        # vincula o vertex shader ao fragment shader
         glLinkProgram(programRef)
 
-        # queries whether program link was successful
+        # verifica se o link do programa foi bem-sucedido
         linkSuccess = glGetProgramiv(programRef, GL_LINK_STATUS)
 
         if not linkSuccess:
-            # retrieve error message
+            # recupera a mensagem de erro
             errorMessage = glGetProgramInfoLog(programRef)
             
-            # free memory used to store program
+            # libera a memória usada para armazenar o programa
             glDeleteShader(programRef)
             
-            # convert byte string to character string
+            # converte string de bytes em string de caracteres
             errorMessage = '\n' + errorMessage.decode('utf-8')
             
-            # raise exception: halt application and print error message
-            raise Exception ( errorMessage )
+            # lança uma exceção: interrompe a aplicação e imprime a mensagem de erro
+            raise Exception(errorMessage)
         
-        # linking was successful; return program reference value
+        # o link foi bem-sucedido; retorna o valor de referência do programa
         return programRef
     
     @staticmethod
     def printSystemInfo():
         print("  Vendor: " + glGetString(GL_VENDOR).decode('utf-8') )
         print("Renderer: " + glGetString(GL_RENDERER).decode('utf-8') )
-        print("OpenGL version supported: " + glGetString(GL_VERSION).decode('utf-8') )
-        print("  GLSL version supportted: " + glGetString(GL_SHADING_LANGUAGE_VERSION).decode('utf-8') )
-
-        
+        print("Versão do OpenGL suportada: " + glGetString(GL_VERSION).decode('utf-8') )
+        print("Versão do GLSL suportada: " + glGetString(GL_SHADING_LANGUAGE_VERSION).decode('utf-8') )
