@@ -54,7 +54,7 @@ class Test(Base):
         glUseProgram( self.programRef )
 
         # renderiza objetos geométricos usando o programa selecionado
-        glDrawArrays( GL_TRIANGLE_FAN , 0 , self.vertexCount )
+        glDrawArrays( GL_LINES , 0 , self.vertexCount )
 
 # instanciar esta classe e executar o programa
 Test().run()

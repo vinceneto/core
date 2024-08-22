@@ -3,25 +3,20 @@ from openGLUtils import OpenGLUtils
 from attribute import Attribute
 from OpenGL.GL import *
 
-# renderizar seis pontos em uma disposição hexagonal
+# render two shapes
 class Test(Base):
-
     def initialize(self):
-
-        print("Inicializando programa...")
+        print("Initializing program...")
+        ### initialize program ###
         
-        ### inicializar o programa ###
-
-        # código do vertex shader
         vsCode = """
         in vec3 position;
         void main()
         {
-            gl_Position = vec4(position.x, position.y, position.z, 1.0);
+            gl_Position = vec4(
+            position.x, position.y, position.z, 1.0);
         }
         """
-
-        # código do fragment shader
         fsCode = """
         out vec4 fragColor;
         void main()
@@ -29,32 +24,40 @@ class Test(Base):
             fragColor = vec4(1.0, 1.0, 0.0, 1.0);
         }
         """
-        
-        # enviar o código para a GPU e compilar; armazenar a referência do programa
         self.programRef = OpenGLUtils.initializeProgram(vsCode, fsCode)
         
-        # configurações de renderização (opcional)
+        ### render settings ###
         glLineWidth(4)
         
-        # configurar o objeto de array de vértices
-        vaoRef = glGenVertexArrays(1)
-        glBindVertexArray(vaoRef)
-
-        # configurar o atributo de vértice
-        positionData = [[ 0.8, 0.0, 0.0], [ 0.4, 0.6, 0.0],
-                        [-0.4, 0.6, 0.0], [-0.8, 0.0, 0.0],
-                        [-0.4, -0.6, 0.0], [0.4, -0.6, 0.0]]
+        ### set up vertex array object - triangle ###
+        self.vaoTri = glGenVertexArrays(1)
+        glBindVertexArray(self.vaoTri)
         
-        self.vertexCount = len(positionData)
-        positionAttribute = Attribute("vec3", positionData)
-        positionAttribute.associateVariable(self.programRef, "position")
-    
+        positionDataTri = [[-0.5, 0.8, 0.0], [-0.2, 0.2, 0.0],
+                           [-0.8, 0.2, 0.0]]
+        self.vertexCountTri = len(positionDataTri)
+        positionAttributeTri = Attribute("vec3", positionDataTri)
+        positionAttributeTri.associateVariable(self.programRef, "position" )
+        
+        ### set up vertex array object - square ###
+        self.vaoSquare = glGenVertexArrays(1)
+        glBindVertexArray(self.vaoSquare)
+        positionDataSquare = [[0.8, 0.8, 0.0], [0.8, 0.2, 0.0],
+                              [0.2, 0.2, 0.0], [0.2, 0.8, 0.0]]
+        self.vertexCountSquare = len(positionDataSquare)
+        positionAttributeSquare = Attribute("vec3", positionDataSquare)
+        positionAttributeSquare.associateVariable(self.programRef, "position" )
+
     def update(self):
-        # selecionar o programa a ser usado na renderização
-        glUseProgram(self.programRef)
+        # using same program to render both shapes
+        glUseProgram( self.programRef )
+        
+        # draw the triangle
+        glBindVertexArray( self.vaoTri )
+        glDrawArrays( GL_TRIANGLE_FAN , 0 , self.vertexCountTri )
+        # draw the square
+        glBindVertexArray( self.vaoSquare )
+        glDrawArrays( GL_TRIANGLE_FAN , 0 , self.vertexCountSquare )
 
-        # renderizar objetos geométricos usando o programa selecionado
-        glDrawArrays(GL_TRIANGLE_FAN, 0, self.vertexCount)
-
-# instanciar esta classe e executar o programa
+# instantiate this class and run the program
 Test().run()
