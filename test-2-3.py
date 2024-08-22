@@ -1,20 +1,23 @@
 from base import Base
 from openGLUtils import OpenGLUtils
+from attribute import Attribute
 from OpenGL.GL import *
 
-# renderizar um único ponto
+# render six points in a hexagon arrangement
 class Test(Base):
 
     def initialize(self):
-        print("Inicializando o programa...")
+
+        print("Initializing program...")
         
-        ### inicializar o programa ###
+        ### initialize program ###
 
         # código do vertex shader
         vsCode = """
+        in vec3 position;
         void main()
         {
-            gl_Position = vec4(0.0, 0.0, 0.0, 1.0);
+            gl_Position = vec4(position.x, position.y, position.z, 1.0);
         }
         """
 
@@ -26,24 +29,32 @@ class Test(Base):
             fragColor = vec4(1.0, 1.0, 0.0, 1.0);
         }
         """
+        
         # enviar o código para a GPU e compilar; armazenar a referência do programa
         self.programRef = OpenGLUtils.initializeProgram(vsCode, fsCode)
+        
+        # render settings (optional)
+        glLineWidth( 4 )
         
         # configurar o objeto de array de vértices
         vaoRef = glGenVertexArrays(1)
         glBindVertexArray(vaoRef)
+
+        # set up vertex attribute
+        positionData = [[ 0.8, 0.0, 0.0], [ 0.4, 0.6, 0.0],
+                        [-0.4, 0.6, 0.0], [-0.8, 0.0, 0.0],
+                        [-0.4, -0.6, 0.0], [0.4, -0.6, 0.0]]
         
-        ### configurações de renderização (opcional)
-        
-        # definir a largura e altura do ponto
-        glPointSize(10)
+        self.vertexCount = len(positionData)
+        positionAttribute = Attribute("vec3", positionData)
+        positionAttribute.associateVariable(self.programRef, "position")
     
     def update(self):
         # selecionar o programa a ser usado na renderização
-        glUseProgram(self.programRef)
+        glUseProgram( self.programRef )
 
         # renderiza objetos geométricos usando o programa selecionado
-        glDrawArrays(GL_POINTS, 0, 1)
-        
+        glDrawArrays( GL_TRIANGLE_FAN , 0 , self.vertexCount )
+
 # instanciar esta classe e executar o programa
 Test().run()
