@@ -34,6 +34,9 @@ class Base(object):
         
         # gerenciar a entrada do usuário
         self.input = Input()
+
+        # number of seconds application has been running
+        self.time = 0
     
     # implementar estendendo a classe
     def initialize(self):
@@ -54,6 +57,16 @@ class Base(object):
             if self.input.quit:
                 self.running = False
 
+            # seconds since iteration of run loop
+            self.deltaTime = self.clock.get_time() / 1000
+
+            # increment time application has been running
+            self.time += self.deltaTime# seconds since iteration of run loop
+            self.deltaTime = self.clock.get_time() / 1000
+
+            # increment time application has been running
+            self.time += self.deltaTime
+            
             ## atualizar ##
             self.update()
 
