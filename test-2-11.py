@@ -2,7 +2,6 @@ from base import Base
 from openGLUtils import OpenGLUtils
 from attribute import Attribute
 from uniform import Uniform
-from math import sin, cos
 from OpenGL.GL import *
 
 # animate triangle moving across screen
@@ -41,7 +40,8 @@ class Test(Base):
         glBindVertexArray(vaoRef)
         
         ## set up vertex attribute ###
-        positionData = [[0.0, 0.2, 0.0], [0.2, -0.2, 0.0], [-0.2, -0.2, 0.0] ]
+        positionData = [[0.0, 0.2, 0.0], [0.2, -0.2, 0.0],
+                        [-0.2, -0.2, 0.0] ]
         self.vertexCount = len(positionData)
         positionAttribute = Attribute("vec3", positionData)
         positionAttribute.associateVariable(self.programRef, "position" )
@@ -51,20 +51,31 @@ class Test(Base):
         self.translation.locateVariable(self.programRef, "translation" )
         self.baseColor = Uniform("vec3", [1.0, 0.0, 0.0])
         self.baseColor.locateVariable( self.programRef, "baseColor" )
+
+        #triangle speed, units per second
+        self.speed = 0.5
     
     def update(self):
         ### update data ###
-        
-        self.translation.data[0] = 0.75 * cos(self.time)
-        self.translation.data[1] = 0.75 * sin(self.time)
 
+        distance = self.speed * self.deltaTime
+
+        if self.input.isKeyPressed("left"):
+            self.translation.data[0] -= distance
+        if self.input.isKeyPressed("right"):
+            self.translation.data[0] += distance
+        if self.input.isKeyPressed("down"):
+            self.translation.data[1] -= distance
+        if self.input.isKeyPressed("up"):
+            self.translation.data[1] += distance
+        
         ### render scene ###
         # reset color buffer with specified color
         glClear(GL_COLOR_BUFFER_BIT)
         glUseProgram( self.programRef )
         self.translation.uploadData()
         self.baseColor.uploadData()
-        glDrawArrays( GL_TRIANGLE_STRIP , 0 , self.vertexCount )
+        glDrawArrays( GL_TRIANGLES , 0 , self.vertexCount )
 
 # instantiate this class and run the program
 Test().run()
