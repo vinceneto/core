@@ -12,10 +12,12 @@ class LineMaterial(BasicMaterial):
         
         # line type: "connected" | "loop" | "segments"
         self.settings["lineType"] = "connected"
+
         self.setProperties(properties)
     
     def updateRenderSettings(self):
         glLineWidth(self.settings["lineWidth"])
+        
         if self.settings["lineType"] == "connected":
             self.settings["drawStyle"] = GL_LINE_STRIP
         elif self.settings["lineType"] == "loop":

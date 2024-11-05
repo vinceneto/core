@@ -3,6 +3,7 @@ from renderer import Renderer
 from scene import Scene
 from camera import Camera
 from mesh import Mesh
+
 from boxGeometry import BoxGeometry
 from surfaceMaterial import SurfaceMaterial
 
@@ -13,7 +14,8 @@ class Test(Base):
         self.renderer = Renderer()
         self.scene = Scene()
         self.camera = Camera( aspectRatio=800/600 )
-        self.camera.setPosition( [1, 2, 10] )
+        self.camera.setPosition( [0, 0, 4] )
+        
         geometry = BoxGeometry()
         material = SurfaceMaterial({
             "useVertexColors": True,
@@ -27,6 +29,7 @@ class Test(Base):
     def update(self):
         self.mesh.rotateY( 0.0514 )
         self.mesh.rotateX( 0.0337 )
+        
         self.renderer.render( self.scene, self.camera)
 
 # instantiate this class and run the program

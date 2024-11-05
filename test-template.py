@@ -25,8 +25,6 @@ class Test(Base):
         self.scene.add( self.mesh )
     
     def update(self):
-        self.mesh.rotateY( 0.0514 )
-        self.mesh.rotateX( 0.0337 )
         self.renderer.render( self.scene, self.camera)
 
 # instantiate this class and run the program

@@ -3,6 +3,7 @@ from renderer import Renderer
 from scene import Scene
 from camera import Camera
 from mesh import Mesh
+
 from geometry import Geometry
 from surfaceMaterial import SurfaceMaterial
 
@@ -14,8 +15,8 @@ class Test(Base):
         self.scene = Scene()
         self.camera = Camera( aspectRatio=800/600 )
         self.camera.setPosition( [0, 0, 0.5] )
+        
         geometry = Geometry()
-
         P0 = [-0.1, 0.1, 0.0]
         P1 = [ 0.0, 0.0, 0.0]
         P2 = [ 0.1, 0.1, 0.0]
@@ -33,16 +34,12 @@ class Test(Base):
         
         material = SurfaceMaterial({
             "useVertexColors": True,
-            # "wireframe": True,
-            # "lineWidth": 8
             })
         
         self.mesh = Mesh( geometry, material )
         self.scene.add( self.mesh )
     
     def update(self):
-        # self.mesh.rotateY( 0.0514 )
-        # self.mesh.rotateX( 0.0337 )
         self.renderer.render( self.scene, self.camera)
 
 # instantiate this class and run the program

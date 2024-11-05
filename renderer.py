@@ -1,5 +1,6 @@
 from OpenGL.GL import *
 from mesh import Mesh
+from object3D import Object3D
 
 class Renderer(object):
     def __init__(self, clearColor=[0,0,0]):
@@ -37,10 +38,10 @@ class Renderer(object):
             mesh.material.uniforms["viewMatrix"].data = camera.viewMatrix
             mesh.material.uniforms["projectionMatrix"].data = camera.projectionMatrix
         
-        # update uniforms stored in material
-        for variableName, uniformObject in mesh.material.uniforms.items():
-            uniformObject.uploadData()
-            
-        # update render settings
-        mesh.material.updateRenderSettings()
-        glDrawArrays( mesh.material.settings["drawStyle"], 0, mesh.geometry.vertexCount )
+            # update uniforms stored in material
+            for variableName, uniformObject in mesh.material.uniforms.items():
+                uniformObject.uploadData()
+                
+            # update render settings
+            mesh.material.updateRenderSettings()
+            glDrawArrays( mesh.material.settings["drawStyle"], 0, mesh.geometry.vertexCount )

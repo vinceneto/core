@@ -12,6 +12,7 @@ class PointMaterial(BasicMaterial):
         
         # draw points as rounded
         self.settings["roundedPoints"] = False
+        
         self.setProperties(properties)
     
     def updateRenderSettings(self):
