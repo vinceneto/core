@@ -53,6 +53,9 @@ class Test(Base):
         self.scene.add( self.mesh )
     
     def update(self):
+        self.time += 1/60
+        self.mesh.material.uniforms["time"].data = self.time
+        
         self.renderer.render( self.scene, self.camera)
 
 # instantiate this class and run the program
