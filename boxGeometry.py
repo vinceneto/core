@@ -1,7 +1,10 @@
 from geometry import Geometry
 
 class BoxGeometry(Geometry):
-    def __init__(self, width=1, height=1, depth=1):
+    def __init__(self, 
+                 width = 1, 
+                 height = 1, 
+                 depth = 1):
         super().__init__()
         
         P0 = [-width/2, -height/2, -depth/2]
@@ -25,6 +28,11 @@ class BoxGeometry(Geometry):
         
         colorData = [C1]*6 + [C2]*6 + [C3]*6 + [C4]*6 + [C5]*6 + [C6]*6
         
+        # texture coordinates
+        T0, T1, T2, T3 = [0,0], [1,0], [0,1], [1,1]
+        uvData = [ T0,T1,T3, T0,T3,T2 ] * 6
+        
+        self.addAttribute("vec2", "vertexUV", uvData)
         self.addAttribute("vec3", "vertexPosition", positionData)
         self.addAttribute("vec3", "vertexColor", colorData)
         self.countVertices()

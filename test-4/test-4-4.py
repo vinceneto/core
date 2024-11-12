@@ -13,7 +13,7 @@ class Test(Base):
         self.renderer = Renderer()
         self.scene = Scene()
         self.camera = Camera( aspectRatio=800/600 )
-        self.camera.setPosition( [0, 0, 10] )
+        self.camera.setPosition( [0, 0, 5] )
         geometry = SphereGeometry(radius=3)
         
         vsCode = """

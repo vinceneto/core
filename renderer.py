@@ -9,6 +9,9 @@ class Renderer(object):
         # required for antialiasing
         glEnable( GL_MULTISAMPLE )
         glClearColor(clearColor[0], clearColor[1], clearColor[2], 1)
+
+        glEnable(GL_BLEND)
+        glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA)
     
     def render(self, scene, camera):
         # clear color and depth buffers

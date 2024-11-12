@@ -3,7 +3,6 @@ from renderer import Renderer
 from scene import Scene
 from camera import Camera
 from mesh import Mesh
-
 from geometry import Geometry
 from surfaceMaterial import SurfaceMaterial
 

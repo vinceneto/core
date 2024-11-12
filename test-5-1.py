@@ -3,7 +3,9 @@ from renderer import Renderer
 from scene import Scene
 from camera import Camera
 from mesh import Mesh
-
+from texture import Texture
+from textureMaterial import TextureMaterial
+from rectangleGeometry import RectangleGeometry
 from boxGeometry import BoxGeometry
 from surfaceMaterial import SurfaceMaterial
 
@@ -14,22 +16,16 @@ class Test(Base):
         self.renderer = Renderer()
         self.scene = Scene()
         self.camera = Camera( aspectRatio=800/600 )
-        self.camera.setPosition( [0, 0, 4] )
-        
-        geometry = BoxGeometry()
-        material = SurfaceMaterial({
-            "useVertexColors": True,
-            "wireframe": True,
-            "lineWidth": 8
-            })
+        self.camera.setPosition( [0, 0, 1] )
+                                
+        geometry = RectangleGeometry()
+        grid = Texture("images/grid.jpg")
+        material = TextureMaterial(grid)
         
         self.mesh = Mesh( geometry, material )
         self.scene.add( self.mesh )
     
     def update(self):
-        self.mesh.rotateY( 0.0514 )
-        self.mesh.rotateX( 0.0337 )
-        
         self.renderer.render( self.scene, self.camera)
 
 # instantiate this class and run the program
